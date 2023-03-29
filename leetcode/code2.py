@@ -40,3 +40,8 @@ class Trie:
             words.append(prefix)
         for char in node.children:
             self._dfs(node.children[char], prefix + char, words)
+
+t = Trie(["cd","f","kl"])
+
+for (k,v) in t.root.children.items():
+    print("key:",k)

@@ -1,24 +1,28 @@
 # start 1
 class Node:
-    children = {}
-    isWord = False
+    # 以下是错误定义，要区分类的属性和实例的属性区别
+    # children = {}
+    # isWord = False
+    def __init__(self):
+        self.children = {}
+        self.isWord = False
 
 class StreamChecker(object):
     def __init__(self, words):
-        """
-        :type words: List[str]
-        """
         self.word = ""
         self.root = Node()
         for word in words:
-            node = self.root
-            word = word[::-1]
-            for w in word:
-                if w not in node.children:
-                    node.children[w] = Node()
-                node = node.children[w]
-            node.isWord = True
-            del node
+            self.insert(word)
+
+    def insert(self,word):
+        node = self.root
+        word = word[::-1]
+        print("insert word:",word)
+        for w in word:
+            if w not in node.children:
+                node.children[w] = Node()
+            node = node.children[w]
+        node.isWord = True
     
     def query(self, letter):
         """
@@ -40,7 +44,9 @@ class StreamChecker(object):
         return False
     
 st = StreamChecker(["cd","f","kl"])
+
 # ["a"],["b"],["c"],["d"],["e"],["f"],["g"],["h"],["i"],["j"],["k"],["l"]
+
 print("query a:",st.query("a"),st.word)
 print("query b:",st.query("b"),st.word)
 print("query c:",st.query("c"),st.word)
