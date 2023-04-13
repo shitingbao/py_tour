@@ -1,47 +1,26 @@
-class TrieNode:
-    def __init__(self):
-        self.children = {}
-        self.is_end_of_word = False
+class Solution:
+    def maxWidthOfVerticalArea(self, points):
+        """
+        :type points: List[List[int]]
+        :rtype: int
+        """
+        list = {}
+        for point in points:
+            list[point[0]] = True
+        
+        queue = []
+        for key in list:
+            queue.append(key)
+        queue.sort()
+        max = 0
+        for idx in range(len(queue)):
+            if idx==0:
+                continue
+            num = queue[idx] - queue[idx-1]
+            if num > max:
+                max = num
+        return max
 
-class Trie:
-    def __init__(self, words):
-        self.root = TrieNode()
-        for word in words:
-            self.insert(word)
-
-    def insert(self, word):
-        current_node = self.root
-        for char in word:
-            if char not in current_node.children:
-                current_node.children[char] = TrieNode()
-            current_node = current_node.children[char]
-        current_node.is_end_of_word = True
-
-    def search(self, word):
-        current_node = self.root
-        for char in word:
-            if char not in current_node.children:
-                return False
-            current_node = current_node.children[char]
-        return current_node.is_end_of_word
-
-    def starts_with(self, prefix):
-        current_node = self.root
-        words = []
-        for char in prefix:
-            if char not in current_node.children:
-                return []
-            current_node = current_node.children[char]
-        self._dfs(current_node, prefix, words)
-        return words
-
-    def _dfs(self, node, prefix, words):
-        if node.is_end_of_word:
-            words.append(prefix)
-        for char in node.children:
-            self._dfs(node.children[char], prefix + char, words)
-
-t = Trie(["cd","f","kl"])
-
-for (k,v) in t.root.children.items():
-    print("key:",k)
+su = Solution()
+max = su.maxWidthOfVerticalArea([[1,2],[2,3],[34,42],[562,83],[71,452],[672,374]])
+print("max:",max)
